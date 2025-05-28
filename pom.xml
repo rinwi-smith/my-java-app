@@ -7,8 +7,7 @@
     <artifactId>my-java-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <java.version>17</java.version>
-        <server.port>8081</server.port>
+    <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
