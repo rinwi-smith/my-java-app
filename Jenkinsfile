@@ -24,9 +24,9 @@ pipeline {
             }
         }
     }
-    // post {
-    //     failure {
-    //         sh 'docker-compose down || true'
-    //     }
-    // }
+    post {
+        failure {
+            sh 'docker-compose down || true'
+        }
+    }
 }
