@@ -22,9 +22,9 @@ pipeline {
         }
         stage('Test App') {
             steps {
-                sh 'sleep 60'
-                sh 'curl -v http://my-java-app-container:8081 || echo "Curl failed"'
-                sh 'curl -s http://my-java-app-container:8081 | grep "Hello, Java!"'
+                sh 'sleep 15'
+                sh 'curl -v http://localhost:8081 || echo "Curl to localhost failed"'
+                sh 'curl -s http://localhost:8081 | grep "Hello, Java!"'
             }
         }
     }

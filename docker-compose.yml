@@ -7,9 +7,10 @@ services:
       - "8081:8081"
     container_name: my-java-app-container
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
-      - java-network
+      - my-java-app-pipeline_java-network
   db:
     image: postgres:15
     environment:
@@ -19,8 +20,13 @@ services:
     ports:
       - "5432:5432"
     container_name: my-db-container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
-      - java-network
+      - my-java-app-pipeline_java-network
 networks:
-  java-network:
-    driver: bridge
+  my-java-app-pipeline_java-network:
+    external: true
