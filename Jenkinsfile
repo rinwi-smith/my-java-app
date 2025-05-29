@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test App') {
             steps {
-                sh 'sleep 30'
+                sh 'sleep 10'
                 sh 'curl -s http://my-java-app-container:8081 | grep "Hello, Java!"'
                 sh 'curl -s http://my-java-app-container:8081/message | grep "Hello, Database!"'
                 sh '''
