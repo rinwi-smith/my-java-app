@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.PostConstruct;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
@@ -26,6 +28,14 @@ public class HelloJava {
     @PostConstruct
     public void init() {
         messageRepository.save(new Message(1L, "Hello, Database!"));
+    }
+
+    @GetMapping("/messages")
+    public List<String> getAllMessages() {
+        return messageRepository.findAll()
+                .stream()
+                .map(Message::getContent)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/message")
