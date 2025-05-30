@@ -47,7 +47,13 @@ public class HelloJava {
 
     @PostMapping("/message")
     public String saveMessage(@RequestBody Message message) {
-        messageRepository.save(message);
+        if (messageRepository.existsById(message.getId())) {
+            Message existing = messageRepository.findById(message.getId()).get();
+            existing.setContent(message.getContent());
+            messageRepository.save(existing);
+        } else {
+            messageRepository.save(message);
+        }
         return "Message saved: " + message.getContent();
     }
 
