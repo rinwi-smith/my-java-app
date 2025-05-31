@@ -4,6 +4,7 @@ import com.example.entity.Message;
 import com.example.repository.MessageRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,12 +34,16 @@ public class HelloJava {
     }
 
     @DeleteMapping("/message/{id}")
-    public String deleteMessage(@PathVariable Long id) {
-        if (messageRepository.existsById(id)) {
-            messageRepository.deleteById(id);
-            return "Message with ID " + id + " deleted";
+    public ResponseEntity<String> deleteMessage(@PathVariable Long id) {
+        try {
+            if (messageRepository.existsById(id)) {
+                messageRepository.deleteById(id);
+                return ResponseEntity.ok("Message with ID " + id + " deleted");
+            }
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting message: " + e.getMessage());
         }
-        return "Message with ID " + id + " not found";
     }
 
     @GetMapping("/messages")

@@ -3,12 +3,19 @@ pipeline {
     stages {
         stage('Clean Up') {
             steps {
-                sh 'docker-compose down || true'
+                sh '''
+                    docker-compose down || true
+                    docker rm -f my-java-app-container my-db-container || true
+                    docker network rm my-java-app-pipeline_java-network || true
+                '''
             }
         }
         stage('Build and Run with Docker Compose') {
             steps {
-                sh 'docker-compose up -d --build'
+                sh '''
+                    docker network create my-java-app-pipeline_java-network || true
+                    docker-compose up -d --build
+                '''
             }
         }
         stage('Debug Info') {
