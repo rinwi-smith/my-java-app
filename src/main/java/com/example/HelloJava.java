@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.PostConstruct;
@@ -28,6 +30,15 @@ public class HelloJava {
     @PostConstruct
     public void init() {
         messageRepository.save(new Message(1L, "Hello, Database!"));
+    }
+
+    @DeleteMapping("/message/{id}")
+    public String deleteMessage(@PathVariable Long id) {
+        if (messageRepository.existsById(id)) {
+            messageRepository.deleteById(id);
+            return "Message with ID " + id + " deleted";
+        }
+        return "Message with ID " + id + " not found";
     }
 
     @GetMapping("/messages")

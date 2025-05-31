@@ -21,16 +21,16 @@ pipeline {
             }
         }
         stage('Test App') {
-            steps {
-                sh 'sleep 60'
-                sh 'curl -s http://my-java-app-container:8081 | grep "Hello, Java!"'
-                sh 'curl -s http://my-java-app-container:8081/message | grep "Hello, Database!"'
-                sh '''curl -v -X POST http://my-java-app-container:8081/message \
-                      -H "Content-Type: application/json" \
-                      -d '{"id":2,"content":"New Message"}' > post_response.txt; cat post_response.txt'''
-                sh '''grep "Message saved: New Message" post_response.txt'''
-                sh 'curl -s http://my-java-app-container:8081/messages | grep "Hello, Database!"'
-            }
-        }
+    steps {
+        sh 'sleep 60'
+        sh 'curl -s http://my-java-app-container:8081 | grep "Hello, Java!"'
+        sh 'curl -s http://my-java-app-container:8081/message | grep "Hello, Database!"'
+        sh '''curl -s -X POST http://my-java-app-container:8081/message \
+              -H "Content-Type: application/json" \
+              -d '{"id":2,"content":"New Message"}' | grep "Message saved: New Message"'''
+        sh 'curl -s http://my-java-app-container:8081/messages | grep "Hello, Database!"'
+        sh 'curl -s -X DELETE http://my-java-app-container:8081/message/2 | grep "Message with ID 2 deleted"'
+    }
+} 
     }
 }
