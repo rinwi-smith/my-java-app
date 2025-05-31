@@ -1,6 +1,12 @@
+FROM maven:3.8.6-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY . .
-RUN ./mvnw clean package
+COPY --from=build /app/target/my-java-app-1.0-SNAPSHOT.jar .
+RUN apt-get update && apt-get install -y maven
 EXPOSE 8081
-CMD ["java", "-jar", "target/my-java-app-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "my-java-app-1.0-SNAPSHOT.jar"]
