@@ -36,10 +36,10 @@ public class HelloJava {
     @DeleteMapping("/message/{id}")
     public ResponseEntity<String> deleteMessage(@PathVariable Long id) {
         try {
-            if (messageRepository.existsById(id)) {
-                messageRepository.deleteById(id);
+        if (messageRepository.existsById(id)) {
+            messageRepository.deleteById(id);
                 return ResponseEntity.ok("Message with ID " + id + " deleted");
-            }
+        }
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error deleting message: " + e.getMessage());
