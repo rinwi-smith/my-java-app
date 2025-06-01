@@ -10,7 +10,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - my-java-app-pipeline_java-network
+      - java-network
   db:
     image: postgres:15
     environment:
@@ -26,7 +26,6 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - my-java-app-pipeline_java-network
+      - java-network
 networks:
-  my-java-app-pipeline_java-network:
-    external: true
+  java-network:

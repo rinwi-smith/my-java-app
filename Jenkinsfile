@@ -17,7 +17,7 @@ pipeline {
                 sh 'docker logs my-java-app-container || true'
                 sh 'docker logs my-db-container || true'
                 sh 'docker network ls || true'
-                sh 'docker network inspect my-java-app-pipeline_java-network || true'
+                sh 'docker network inspect my-java-app_java-network || true'
             }
         }
         stage('Run Unit Tests') {
